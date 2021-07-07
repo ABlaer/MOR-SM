@@ -15,7 +15,7 @@ Copyright (C) by Almog Blaer
                                       
                                       
 Get ready and tighten belts, we going to launch an synthetic earthquake in any location you wish.
-This code can depict a finite segment aim to be panted in SW4 software.
+This code can depict a finite segment aim to be planted in SW4 software.
 You only need to tell us about your computertion domain and  about the segment's kinematic.
 
 the general code steps are:
