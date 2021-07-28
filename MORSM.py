@@ -15,7 +15,7 @@ Copyright (C) by Almog Blaer
                                       
                                       
 Get ready and tighten belts, we going to launch an synthetic earthquake in any location you wish.
-This code can depict a finite segment aim to be planted in SW4 software.
+This code can depict a finite segment aimקג to be panted in SW4 software.
 You only need to tell us about your computertion domain and  about the segment's kinematic.
 
 the general code steps are:
@@ -69,6 +69,7 @@ parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
     description='''MOR-SM - Moment Rate Oriented - Slip Model''',
     epilog='''Created by Almog Blaer (blaer@post.bgu.ac.il), 2021 @ GSI/BGU''')
+parser.version = '1.0'
 parser.add_argument('-v', '--verbose', help='verbose - print log messages to screen?', action='store_true', default=False)
 parser.add_argument('-l', '--log_level', choices=_LOG_LEVEL_STRINGS, default=loglevel,
                     help=f"Log level (Default: {loglevel}). see Python's Logging module for more details")
@@ -213,56 +214,11 @@ def getslipmodel(params=params):
                 time[count, 0] = (Vr_2 * sec_stage1 - (Vr_1 * sec_stage1)) / Vr_2 + time_INV_2
             count = count + 1
     return fault, slip, time
-    
-def cratefig(fault, slip, time, outfile):
-    data = np.hstack((fault, slip, time))
-    data = pd.DataFrame(data)
-    # save to file
-    data.to_csv("time.txt", sep=" ", header=None, index=None)
-    from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
-                                   AutoMinorLocator)
-                                   
-    plt.rcParams.update({'font.size': 12})
-    fig,(ax3,ax4) = plt.subplots(2,1,sharex=True,figsize=(7,15))
 
+   
 
-    time=pd.read_csv('time.txt',sep=" ",header=None, names=['x','y','z','m0','t'])
-    time['m0']= params['Ga']*time['m0']* params['dh']**2
-    time=time[['m0','t']]
-    time=time.sort_values(['t'])
-    time=time.to_numpy()
-
-    moment=np.ones((len(time),2))
-    for i in range(len(time)):
-        moment[i,0]=time[i,1]
-        moment[i,1]=time[:i,0].sum()
-
-    x=moment[:,0]
-    y=moment[:,1]
-    s=np.linspace(moment[:,0].min(),moment[:,0].max(),50)
-    a=np.interp(s,x,y)
-    ax3.plot(s,a,'r.-')
-
-    # ax3.yaxis.set_major_locator(MultipleLocator(2e17))
-    # ax3.yaxis.set_minor_locator(MultipleLocator(1e17))
-    # ax3.xaxis.set_major_locator(MultipleLocator(1))
-    # ax3.xaxis.set_minor_locator(MultipleLocator(0.1)) 
-    ax3.set_ylabel('cumulative seismic moment [Nm]')
-
-    bb=np.gradient(a,s[1]-s[0])
-    ax4.plot(s,bb,label='STF')
-    ax4.legend()
-    # ax4.yaxis.set_major_locator(MultipleLocator(1e17))
-    # ax4.yaxis.set_minor_locator(MultipleLocator(1e16))
-    # ax4.xaxis.set_major_locator(MultipleLocator(1))
-    # ax4.xaxis.set_minor_locator(MultipleLocator(0.1)) 
-    ax4.set_xlabel('time since OT [sec]')
-    ax4.set_ylabel('moment rate [Nm/sec]')
-    fig.savefig('r.png')
-
-
-
-def saveslipmodel_sw4(fault, slip, time, outfile):
+def saveslipmodel_sw4(outfile):
+    fault, slip, time = getslipmodel()
     data = np.hstack((fault, slip, time))
     data = pd.DataFrame(data)
     # get some values
@@ -316,18 +272,87 @@ def saveslipmodel_sw4(fault, slip, time, outfile):
         data.to_csv(f, sep=" ", header=None, index=None)
 
 
-def saveslipmodel_data(fault, slip, time, outfile):
+        
+def createfig(first_y_ticks=None,
+              seconed_y_ticks=None,
+              x_ticks=None, **kwargs):
+
+    fault, slip, time = getslipmodel()
+    moment_rise = np.hstack((fault, slip, time))
+    moment_rise = pd.DataFrame(moment_rise, columns=['x','y','z','m0','t'])
+   
+   
+    from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
+                                   AutoMinorLocator)
+                                   
+    plt.rcParams.update({'font.size': 12})
+    fig,(ax3,ax4) = plt.subplots(2,1,sharex=True,figsize=(7,15))
+
+   
+    moment_rise['m0']= params['Ga']*moment_rise['m0']* params['dh']**2
+    moment_rise=moment_rise[['m0','t']]
+    moment_rise=moment_rise.sort_values(['t'])
+    moment_rise=moment_rise.to_numpy()
+
+    moment=np.ones((len(moment_rise),2))
+    for i in range(len(moment_rise)):
+        moment[i,0]= moment_rise[i,1]
+        moment[i,1]= moment_rise[:i,0].sum()
+
+    x=moment[:,0]
+    y=moment[:,1]
+    s=np.linspace(moment[:,0].min(),moment[:,0].max(),50)
+    a=np.interp(s,x,y)
+    ax3.plot(s,a,'r.-')
+
+    ax3.yaxis.set_major_locator(MultipleLocator(first_y_ticks))
+  
+    ax4.yaxis.set_major_locator(MultipleLocator(seconed_y_ticks))
+
+    ax4.xaxis.set_major_locator(MultipleLocator(x_ticks))
+
+    ax3.set_ylabel('cumulative seismic moment [Nm]')
+
+    bb=np.gradient(a,s[1]-s[0])
+    ax4.plot(s,bb,label='STF')
+    ax4.legend()
+
+    ax4.set_xlabel('time since OT [sec]')
+    ax4.set_ylabel('moment rate [Nm/sec]')                       
+    plt.show()
+    
+    return  
+
+
+
+def saveslipmodel_data(outfile=None):
+    fault, slip, time = getslipmodel()
     data = np.hstack((fault, slip, time))
     data = pd.DataFrame(data)
     # save to file
     data.to_csv(outfile, sep=" ", header=None, index=None)
+       
+    return data
 
 
-
-
+def Slip_and_time_distribution():
+    fault, slip, time = getslipmodel()
+    x = fault[:,0].reshape((len(fault[:,0]),1))
+    y = fault[:,2].reshape((len(fault[:,2]),1))
+    z = slip[:,0].reshape((len(fault[:,0]),1))
+    plt.scatter(x,y, c=z, s=100, cmap="YlOrBr", edgecolor="k")
+    plt.colorbar(label="values")
+    plt.show()
+      
+    return x, y, z
+    x, y, z =  Slip_and_time_distribution()
+    print(x)
+    print(y)
+    print(z)
 
 
 if __name__ == '__main__':
     args = parser.parse_args()
     morsm = MORSM(args)
     morsm.run()
+    
