@@ -127,6 +127,7 @@ MORSM.createfig(first_y_ticks=5e18,seconed_y_ticks=2e18,x_ticks=5)
 
 
     Canvas(toolbar=Toolbar(toolitems=[('Home', 'Reset original view', 'home', 'home'), ('Back', 'Back to previous …
+![Uploading STF.png…]()
 
 
 # Create slip and time distribution
@@ -138,6 +139,7 @@ MORSM.Slip_and_time_distribution()
 
 
     Canvas(toolbar=Toolbar(toolitems=[('Home', 'Reset original view', 'home', 'home'), ('Back', 'Back to previous …
+![Slip and Time distribution](https://user-images.githubusercontent.com/86647617/127622059-c3269b93-718c-4817-bb98-a7bcfb52b1d8.png)
 
 
 # Save file
