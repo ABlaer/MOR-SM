@@ -14,16 +14,16 @@ Copyright (C) by Almog Blaer
  |_|  |_|\____/|_|  \_\    |_____/|_|  |_|
                                       
                                       
-Get ready and tighten belts, we going to launch an synthetic earthquake in any location you wish.
-This code can depict a finite segment aimקג to be panted in SW4 software.
-You only need to tell us about your computertion domain and  about the segment's kinematic.
+Get ready and fasten your seat belts, we are going to launch a synthetic earthquake at any location you wish.
+This code can depict a finite segment that is aimed to be planted in SW4 software.
+All you need is to tell us  about your computetional domain and  about the segment's kinematic.
 
 the general code steps are:
 1. Defining the the segment's dimensions (width,length and slip by Goda (2016) equations for desired magnitude
 2. Fitting a location parameters for the slip and time functions
-3. Computing the "sliding time" Tm from stage I and stage II for velocity I and velocity II respectively 
+3. Computing the sliding time (Tm) from stage I and stage II for velocity I and velocity II respectively 
 4. The features above are distributed by the time and slip function on each pixel on the segment
-5. You can generate  STF to the earthquake model you have just set. 
+5. You can generate  STF for the earthquake you have just set. 
 
 """
 
