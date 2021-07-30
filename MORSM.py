@@ -223,7 +223,7 @@ def saveslipmodel_sw4(outfile):
     data = pd.DataFrame(data)
     # get some values
     max_slip, _, W, Y = mag2fault_goda(params['EveMag'])
-    sum_slip = slip[:, 0].sum()
+    sum_slip = slip[:, 0].sum() 
     mean_slip = slip[:, 0].mean()
     M0 = sum_slip * params['Ga'] * params['dh']**2
     Mw = (2 / 3) * (np.log10(M0) - 9.1)
@@ -270,7 +270,8 @@ def saveslipmodel_sw4(outfile):
     with open(outfile, 'w') as f:
         f.write(header)
         data.to_csv(f, sep=" ", header=None, index=None)
-
+    
+    print(header)
 
         
 def createfig(first_y_ticks=None,
@@ -304,19 +305,13 @@ def createfig(first_y_ticks=None,
     s=np.linspace(moment[:,0].min(),moment[:,0].max(),50)
     a=np.interp(s,x,y)
     ax3.plot(s,a,'r.-')
-
     ax3.yaxis.set_major_locator(MultipleLocator(first_y_ticks))
-  
     ax4.yaxis.set_major_locator(MultipleLocator(seconed_y_ticks))
-
     ax4.xaxis.set_major_locator(MultipleLocator(x_ticks))
-
     ax3.set_ylabel('cumulative seismic moment [Nm]')
-
     bb=np.gradient(a,s[1]-s[0])
     ax4.plot(s,bb,label='STF')
     ax4.legend()
-
     ax4.set_xlabel('time since OT [sec]')
     ax4.set_ylabel('moment rate [Nm/sec]')                       
     plt.show()
@@ -331,26 +326,43 @@ def saveslipmodel_data(outfile=None):
     data = pd.DataFrame(data)
     # save to file
     data.to_csv(outfile, sep=" ", header=None, index=None)
+    
+    header = saveslipmodel_sw4(outfile)
+    print(header)
        
     return data
 
 
 def Slip_and_time_distribution():
-    fault, slip, time = getslipmodel()
-    x = fault[:,0].reshape((len(fault[:,0]),1))
-    y = fault[:,2].reshape((len(fault[:,2]),1))
-    z = slip[:,0].reshape((len(fault[:,0]),1))
-    plt.scatter(x,y, c=z, s=100, cmap="YlOrBr", edgecolor="k")
-    plt.colorbar(label="values")
+    
+    _, _, W, Y = mag2fault_goda(params['EveMag'])
+    w = np.arange(-(W / 2), (W / 2), params['dh'])
+    w = w.reshape(len(w), 1)
+    y = np.arange(-(Y / 2), (Y / 2), params['dh'])
+    y = y.reshape(len(y), 1)
+    
+    ones = np.ones((len(w), len(y)))
+    X = w * ones
+    Y = np.tile(y.T , (len(w), 1))
+    _, slip, time = getslipmodel()
+    
+    Z_slip = slip.reshape((len(w), len(y)))
+    Z_time = time.reshape((len(w), len(y)))
+    
+    
+    fig, ax2 = plt.subplots()
+    cm = plt.cm.get_cmap('jet')
+    sc = ax2.contourf(Y, X , Z_slip, vmin=slip.min(), vmax=slip.max(), cmap=cm)
+    cbar = fig.colorbar(sc,  ax=ax2, shrink=0.9)
+   
+    
+    
+    contours =  plt.contour(Y, X, Z_time, 30 ,colors='black')
+    plt.clabel(contours, inline=True, fontsize=8)
+    ax2.set_xlabel('length, km')
+    ax2.set_ylabel('width, km')
     plt.show()
-      
-    return x, y, z
-    x, y, z =  Slip_and_time_distribution()
-    print(x)
-    print(y)
-    print(z)
-
-
+    
 if __name__ == '__main__':
     args = parser.parse_args()
     morsm = MORSM(args)
