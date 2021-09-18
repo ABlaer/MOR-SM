@@ -67,13 +67,10 @@ from mpl_toolkits import mplot3d
 
 
 
-![alt text](Computational domain.png)    
+
+![Computational domain](https://user-images.githubusercontent.com/86647617/133883546-b3e7415b-cd4a-437e-a6e7-de78645cf619.png)
 
     
-
-
-
-
 ```python
 MORSM.params['Vr_1']=2500
 MORSM.params['Vr_2']=2500
@@ -120,7 +117,7 @@ MORSM.createfig(first_y_ticks=5e18,seconed_y_ticks=5e17,x_ticks=1)
 
 
     Canvas(toolbar=Toolbar(toolitems=[('Home', 'Reset original view', 'home', 'home'), ('Back', 'Back to previous …
-    ![alt text](Comulative_moment_and_STF.png)
+   ![Comulative_moment_and_STF](https://user-images.githubusercontent.com/86647617/133883565-69583415-4c7a-4d86-8edc-712dc46b7417.png)
 
 # Create slip and time distribution
 
@@ -131,7 +128,8 @@ MORSM.Slip_and_time_distribution()
 
 
     Canvas(toolbar=Toolbar(toolitems=[('Home', 'Reset original view', 'home', 'home'), ('Back', 'Back to previous …
-    ![alt text](Slip_Time_functions_2D.png)
+    ![Slip_Time_functions_2D](https://user-images.githubusercontent.com/86647617/133883577-55da45d8-48d1-46f0-a3f8-236a2897479a.png)
+
 
 
 ```python
@@ -140,7 +138,8 @@ MORSM.Slip_and_time_distribution_3D()
 
 
     Canvas(toolbar=Toolbar(toolitems=[('Home', 'Reset original view', 'home', 'home'), ('Back', 'Back to previous …
-    ![alt text](Slip_Time_functions_3D.png)
+    ![Slip_Time_functions_3D](https://user-images.githubusercontent.com/86647617/133883581-7644c2fe-fb5e-4279-bd34-46527887209b.png)
+
 
 # Save file
 
