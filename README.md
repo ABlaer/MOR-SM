@@ -6,12 +6,12 @@ from mpl_toolkits import mplot3d
 ```
 Copyright (C) by Almog Blaer 
 
-   __  __  ____  _____        _____ __  __ 
-  |  \/  |/ __ \|  __ \      / ____|  \/  |
-  | \  / | |  | | |__) |____| (___ | \  / |
-  | |\/| | |  | |  _  /______\___ \| |\/| |
-  | |  | | |__| | | \ \      ____) | |  | |
-  |_|  |_|\____/|_|  \_\    |_____/|_|  |_|
+#   __  __  ____  _____        _____ __  __ 
+#  |  \/  |/ __ \|  __ \      / ____|  \/  |
+#  | \  / | |  | | |__) |____| (___ | \  / |
+#  | |\/| | |  | |  _  /______\___ \| |\/| |
+#  | |  | | |__| | | \ \      ____) | |  | |
+#  |_|  |_|\____/|_|  \_\    |_____/|_|  |_|
                                       
                                       
 Get ready and fasten your seat belts, we are going to launch a synthetic earthquake at any location you wish.
@@ -123,7 +123,7 @@ MORSM.Slip_and_time_distribution()
 
 
     Canvas(toolbar=Toolbar(toolitems=[('Home', 'Reset original view', 'home', 'home'), ('Back', 'Back to previous …
-     ![alt text](Slip_Time_functions_2D.png)
+    ![alt text](Slip_Time_functions_2D.png)
 
 
 ```python
