@@ -128,8 +128,8 @@ MORSM.Slip_and_time_distribution()
 
 
     Canvas(toolbar=Toolbar(toolitems=[('Home', 'Reset original view', 'home', 'home'), ('Back', 'Back to previous …
-    ![Slip_Time_functions_2D](https://user-images.githubusercontent.com/86647617/133883577-55da45d8-48d1-46f0-a3f8-236a2897479a.png)
-
+    
+![Slip_Time_functions_2D](https://user-images.githubusercontent.com/86647617/133883627-a5af2c17-8064-48fc-8f5d-e9ee94104934.png)
 
 
 ```python
@@ -138,7 +138,8 @@ MORSM.Slip_and_time_distribution_3D()
 
 
     Canvas(toolbar=Toolbar(toolitems=[('Home', 'Reset original view', 'home', 'home'), ('Back', 'Back to previous …
-    ![Slip_Time_functions_3D](https://user-images.githubusercontent.com/86647617/133883581-7644c2fe-fb5e-4279-bd34-46527887209b.png)
+    
+![Slip_Time_functions_3D](https://user-images.githubusercontent.com/86647617/133883633-863a966d-5c60-45b9-aa8d-f66ee6a0949d.png)
 
 
 # Save file
