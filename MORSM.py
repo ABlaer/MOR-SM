@@ -4,14 +4,12 @@
 """
 Copyright (C) by Almog Blaer 
 
-
-
-  __  __  ____  _____        _____ __  __ 
- |  \/  |/ __ \|  __ \      / ____|  \/  |
- | \  / | |  | | |__) |____| (___ | \  / |
- | |\/| | |  | |  _  /______\___ \| |\/| |
- | |  | | |__| | | \ \      ____) | |  | |
- |_|  |_|\____/|_|  \_\    |_____/|_|  |_|
+   __  __  ____  _____        _____ __  __ 
+  |  \/  |/ __ \|  __ \      / ____|  \/  |
+  | \  / | |  | | |__) |____| (___ | \  / |
+  | |\/| | |  | |  _  /______\___ \| |\/| |
+  | |  | | |__| | | \ \      ____) | |  | |
+  |_|  |_|\____/|_|  \_\    |_____/|_|  |_|
                                       
                                       
 Get ready and fasten your seat belts, we are going to launch a synthetic earthquake at any location you wish.
@@ -19,11 +17,38 @@ This code can depict a finite segment that is aimed to be planted in SW4 softwar
 All you need is to tell us  about your computetional domain and  about the segment's kinematic.
 
 the general code steps are:
-1. Defining the the segment's dimensions (width,length and slip by Goda (2016) equations for desired magnitude
-2. Fitting a location parameters for the slip and time functions
-3. Computing the sliding time (Tm) from stage I and stage II for velocity I and velocity II respectively 
-4. The features above are distributed by the time and slip function on each pixel on the segment
-5. You can generate  STF for the earthquake you have just set. 
+ 1. Defining the the segment's dimensions (width,length and slip by Goda (2016) equations for desired magnitude)
+ 2. Fitting a location parameters for the slip and time functions based on  disired diractivity.
+ 3. Computing the sliding time (Tr) from stage I and stage II for velocity I and velocity II respectively 
+ 4. The features above are distributed by the time and slip function on each pixel on the segment
+ 5. You can generate  Source Time Function (STF) for the earthquake you have just set.
+ 6. Save your file as SW4 input
+ 
+parameters list: 
+
+dh: set the grid spacing in your computational domain
+Xc: set north-south Cartesian location of the segment's center
+Yc: set the location east-west Cartesian location of the segment's center
+Zc: set the depth hypocenter in Cartesian location of the segment's center
+dip: segment's dip
+strike: segment's strike
+alpha: segment's angle frim the horizon
+Ga: Shear modulus 
+Vr_2:  set the second velocity of stage II
+Vr_1: set the first velocity  of stage I
+sec_stage1: set how long  the first stage will be with Vr_1
+EveMag: set the desired magnitude.
+
+aD: set the max slip location (down-up direction)
+bD: set the max slip location (south-north or east-west direction)
+aH: set the nucliation location  (down-up direction)
+bH: set the nucliation location  (south-north or east-west direction).
+
+bH, aH > 0 segment with northern (+X) diractivity and downwards (+Z)
+bH, aH < 0 segment with southern (-X) diractivity and upwnwards (-Z)
+bH < 0, aH > 0 segment with southern (-X) diractivity and downwards (+Z)
+bH > 0, aH < 0  segment with northern (+X) diractivity and upwnwards (-Z)
+aH = bH Simetric segment
 
 """
 
@@ -36,6 +61,8 @@ import argparse
 import glob
 import math
 import logging
+from mpl_toolkits.mplot3d.axes3d import get_test_data
+
 _LOG_LEVEL_STRINGS = ['CRITICAL', 'ERROR', 'WARNING', 'INFO', 'DEBUG']
 loglevel = 'DEBUG'  # any one of: CRITICAL,ERROR,WARNING,INFO,DEBUG,NOTSET
 formatter = logging.Formatter(fmt='%(asctime)s.%(msecs)03d | %(name)s | %(levelname)s | %(message)s',
@@ -205,9 +232,9 @@ def getslipmodel(params=params):
             vector1 = j * vec1
             vector2 = i * vec2
             fault[count, :] = (fault_center + vector1 + vector2).T
-            slip[count, 0] = max_slip * np.exp(-((i) / (W / 2) - aH)**2 - ((j) / (Y / 2) - bH)**2)
-            time_INV_1 = (Ts_1 / (2**0.5)) * ((((i) / (W / 2)) - aD)**2 + (((j) / (Y / 2)) - bD)**2)**0.5
-            time_INV_2 = (Ts_2 / (2**0.5)) * ((((i) / (W / 2)) - aD)**2 + (((j) / (Y / 2)) - bD)**2)**0.5
+            slip[count, 0] = max_slip * np.exp(-((i) / (W / 2) + aD)**2 - ((j) / (Y / 2) + bD)**2)
+            time_INV_1 = (Ts_1 / (2**0.5)) * ((((i) / (W / 2)) + aH)**2 + (((j) / (Y / 2)) + bH)**2)**0.5
+            time_INV_2 = (Ts_2 / (2**0.5)) * ((((i) / (W / 2)) + aH)**2 + (((j) / (Y / 2)) + bH)**2)**0.5
             if time_INV_1 <= sec_stage1:
                 time[count, 0] = time_INV_1
             elif time_INV_1 > sec_stage1:
@@ -312,8 +339,8 @@ def createfig(first_y_ticks=None,
     bb=np.gradient(a,s[1]-s[0])
     ax4.plot(s,bb,label='STF')
     ax4.legend()
-    ax4.set_xlabel('time since OT [sec]')
-    ax4.set_ylabel('moment rate [Nm/sec]')                       
+    ax4.set_xlabel('Time since OT [sec]')
+    ax4.set_ylabel('Moment rate [Nm/sec]')                       
     plt.show()
     
     return  
@@ -321,6 +348,8 @@ def createfig(first_y_ticks=None,
 
 
 def saveslipmodel_data(outfile=None):
+
+    plt.rcParams.update({'font.size': 16})
     fault, slip, time = getslipmodel()
     data = np.hstack((fault, slip, time))
     data = pd.DataFrame(data)
@@ -341,27 +370,72 @@ def Slip_and_time_distribution():
     y = np.arange(-(Y / 2), (Y / 2), params['dh'])
     y = y.reshape(len(y), 1)
     
+    ones = np.ones((len(w), len(y))) 
+    X = w * ones 
+    Y = np.tile(y.T , (len(w), 1)) 
+    _, slip, time = getslipmodel()
+    
+    Z_slip = slip.reshape((len(w), len(y)))
+ 
+    Z_time = time.reshape((len(w), len(y)))
+ 
+    
+    fig, ax2 = plt.subplots(figsize=(10,5))
+    cm = plt.cm.get_cmap('jet')
+    sc = ax2.contourf(Y, X , Z_slip, vmin=slip.min(), vmax=slip.max(), cmap=cm)
+    cbar = fig.colorbar(sc,  ax=ax2, shrink=0.9)
+    cbar.set_label(r'Slip, m')
+   
+    
+    contours =  plt.contour(Y, X, Z_time, 30 ,colors='black')
+    plt.clabel(contours, inline=True, fontsize=8,fmt='%1.1f')
+    ax2.set_xlabel('Length, km')
+    ax2.set_ylabel('Width, km')
+    plt.show()
+    
+
+def Slip_and_time_distribution_3D():
+    
+    _, _, W, Y = mag2fault_goda(params['EveMag'])
+    w = np.arange(-(W / 2), (W / 2), params['dh'])
+    w = w.reshape(len(w), 1)
+    y = np.arange(-(Y / 2), (Y / 2), params['dh'])
+    y = y.reshape(len(y), 1)
+    
     ones = np.ones((len(w), len(y)))
     X = w * ones
     Y = np.tile(y.T , (len(w), 1))
     _, slip, time = getslipmodel()
     
     Z_slip = slip.reshape((len(w), len(y)))
+ 
     Z_time = time.reshape((len(w), len(y)))
+  
     
-    
-    fig, ax2 = plt.subplots()
-    cm = plt.cm.get_cmap('jet')
-    sc = ax2.contourf(Y, X , Z_slip, vmin=slip.min(), vmax=slip.max(), cmap=cm)
-    cbar = fig.colorbar(sc,  ax=ax2, shrink=0.9)
+    fig, ax1 = plt.subplots(figsize=(20,20))
+
+    ax1 = plt.axes(projection='3d')
+    ax1.contour3D(Y, X, Z_time, 30, cmap='binary',zorder=2)
+    #sc = ax2.contourf(Y, X , Z_slip, vmin=slip.min(), vmax=slip.max(), cmap=cm)
+    #cbar = fig.colorbar(sc,  ax=ax2, shrink=0.9)
+    #cbar.set_label(r'slip, m')
    
+
+    surf = ax1.plot_surface(Y, X, Z_slip, rstride=1, cstride=1, cmap='jet', vmin=slip.min(), vmax=slip.max(),
+                       linewidth=0, antialiased=False,zorder=1,alpha=0.5)
+    cbar= fig.colorbar(surf, shrink=0.5, aspect=10)
+    cbar.set_label('Slip, m')
+    ax1.set_xlabel('Length, km',labelpad=7)
+    ax1.set_ylabel('Width, km',labelpad=7)
+    ax1.set_zlabel('Time ,sec',labelpad=7)
+    #contours =  plt.contour(Y, X, Z_time, 30 ,colors='black')
+    #plt.clabel(contours, inline=True, fontsize=8,fmt='%1.1f')
+    #ax2.set_xlabel('length, km')
+    #ax2.set_ylabel('width, km')
+    plt.show()    
     
     
-    contours =  plt.contour(Y, X, Z_time, 30 ,colors='black')
-    plt.clabel(contours, inline=True, fontsize=8)
-    ax2.set_xlabel('length, km')
-    ax2.set_ylabel('width, km')
-    plt.show()
+    
     
 if __name__ == '__main__':
     args = parser.parse_args()
