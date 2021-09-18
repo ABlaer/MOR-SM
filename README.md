@@ -53,7 +53,7 @@ Image('Computational domain.png')
 
 
     
-![png](output_4_0.png)
+
     
 
 
