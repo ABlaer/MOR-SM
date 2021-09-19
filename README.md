@@ -45,7 +45,7 @@ from mpl_toolkits import mplot3d
 # Zc: set the depth hypocenter in Cartesian location of the segment's center
 # dip: segment's dip
 # strike: segment's strike
-# alpha: segment's angle frim the horizon
+# alpha: segment's angle from the horizon
 # Ga: Shear modulus 
 # Vr_2:  set the second velocity of stage II
 # Vr_1: set the first velocity  of stage I
