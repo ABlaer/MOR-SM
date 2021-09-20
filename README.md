@@ -16,7 +16,7 @@ Copyright (C) by Almog Blaer
 ## What is MOR-SM?
 
 MOR-SM is moment-rate oriented slip model for seismic wave propagation simulation software - SW4.
-The code collection a few command-line tools for manipulating slip function, time function and 
+The code contains collection of a few command-line tools for manipulating slip function, time function and 
 source time function for depicting the source physical properties.
 
 
