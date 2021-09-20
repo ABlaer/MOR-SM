@@ -71,5 +71,5 @@ MOR-SM is released under the GNU Lesser General Public License version 3 or any 
 
 ## Acknowledgment
 
-MOR-SM is relies on research with  Ben-Gurion University of the Negev and Geological Survey of Israel.
+MOR-SM relies on research with  Ben-Gurion University of the Negev and Geological Survey of Israel.
 I gratefully acknowledge Dr. Ran Nof and Prof. Michael Tsesarsky for taking part in this process. 
