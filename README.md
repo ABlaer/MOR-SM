@@ -34,16 +34,15 @@ git clone https://github.com/ABlaer/MOR-SM.git
 
 ### Python modules
 
-*argparse
-*sys
-*os
-*re
-*pandas
-*numpy
-*matplotlib
-*glob
-*logging
-*mpl_toolkits.mplot3d.axes3d
+* argparse
+* sys
+* os
+* pandas
+* numpy
+* matplotlib
+* glob
+* logging
+* mpl_toolkits.mplot3d.axes3d
 
 ### Usage
 
