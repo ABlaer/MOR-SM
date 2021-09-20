@@ -9,9 +9,9 @@ License: UNKNOWN
 Keywords: MOR-SM,seismology,SW4,EEW,GMM
 Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
-Classifier: License :: OSI Approved ::  GNU General Public License v3 (GPLv3)
+Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
-Description-Content-Type: This code can depict a finite segment that is aimed to be planted in SW4- Seismic Waves simulation
+Description-Content-Type: text/markdown
 License-File: LICENSE
 
 # MOR-SM
