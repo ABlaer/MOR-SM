@@ -1,5 +1,6 @@
 # MOR-SM
 
+## moment-rate oriented slip model
 
 
    __  __  ____  _____        _____ __  __ 
@@ -58,7 +59,11 @@ optional arguments:
  5. -p parameter-file, --paramfile parameter-file Parameter file.
  6. -o output-file, --outfile output-file Output SW4 source commands file (see Chapter 11.2 in SW4 manual)
 
-(***)
+===============================================
+
+
+
+
 
 ## License
 
