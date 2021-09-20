@@ -25,13 +25,18 @@ setuptools.setup(
     description="moment-rate oriented slip distribution for SW4 Seismic Waves simulation",
     long_description=long_description,
     long_description_content_type="This code can depict a finite segment that is aimed to be planted in SW4- Seismic Waves simulation",
-    keywords=["MOR-SM", "seismology", "SW4","EEW", "GMM"],
+    keywords=["MOR-SM", "seismology", "SW4","EEW", "GMM"],0
     url="https://github.com/ABlaer/MOR-SM",
     install_requires=install_requires,
     packages=setuptools.find_packages(),
-    classifiers=(
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved ::  GNU General Public License v3 (GPLv3)",
+    classifiers=[
+        "Programming Language :: Python",
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Science/Research",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: MIT",
         "Operating System :: OS Independent",
-    ),
+        "Topic :: Software Development :: Libraries :: Python Modules",
+        ],
+ 
 )

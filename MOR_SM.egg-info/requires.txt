@@ -1,0 +1,8 @@
+pandas
+numpy
+matplotlib.pyplot
+os
+sys
+argparse
+globmathlogging
+mpl_toolkits.mplot3d.axes3d
