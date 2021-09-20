@@ -9,10 +9,7 @@ Copyright (C) by Almog Blaer
  
 # MOR-SM
 
-## moment-rate oriented slip model
-
-<<<<<<< HEAD
-
+      ## moment-rate oriented slip model
 
 =======
 
