@@ -50,19 +50,18 @@ or
 
 ### Usage
 
-       $ python MORSM.py [-v] [-l] [--logfile] [-p] [-o]
+     $ python MORSM.py [-v] [-l] [--logfile] [-p] [-o]
 
 optional arguments:
 
- 1. -h, --help            show this help message and exit
- 2. -v, --verbose         verbose - print log messages to screen?
- 3. -l {CRITICAL,ERROR,WARNING,INFO,DEBUG}, --log_level {CRITICAL,ERROR,WARNING,INFO,DEBUG}  Log level (Default: DEBUG). see Python's Logging module for more details
- 4. --logfile log file name log to file
- 5. -p parameter-file, --paramfile parameter-file Parameter file.
- 6. -o output-file, --outfile output-file Output SW4 source commands file (see Chapter 11.2 in SW4 manual)
+     -h, --help            show this help message and exit
+     -v, --verbose         verbose - print log messages to screen?
+     -l {CRITICAL,ERROR,WARNING,INFO,DEBUG}, --log_level {CRITICAL,ERROR,WARNING,INFO,DEBUG}  Log level (Default: DEBUG). see Python's Logging module for more details
+     --logfile log file name log to file
+     -p parameter-file, --paramfile parameter-file Parameter file.
+     -o output-file, --outfile output-file Output SW4 source commands file (see Chapter 11.2 in SW4 manual)
 
 ===============================================
-
 
 
 
