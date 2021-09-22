@@ -23,7 +23,7 @@ source time function for depicting the source physical properties.
 ## Installation
 
 
-     pip install MOR-SM
+     pip install MORSM
 
 or 
 
