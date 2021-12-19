@@ -32,7 +32,7 @@ Yc: set the location east-west Cartesian location of the segment's center
 Zc: set the depth hypocenter in Cartesian location of the segment's center
 dip: segment's dip
 strike: segment's strike
-alpha: segment's angle frim the horizon
+rake: segment's angle from the horizon
 Ga: Shear modulus 
 Vr_2:  set the second velocity of stage II
 Vr_1: set the first velocity  of stage I
@@ -78,7 +78,7 @@ params = {'dh': 171, # set the grid spacing in your computational domain
     'Zc': 10000, # set the depth hypocenter in Cartesian location of the segment's center
     'dip': 90, # segment's dip
     'strike': 0, # segment's strike
-    'alpha': 0, # # segment's angle frim the horizon
+    'rake': 0, # # segment's angle from the horizon
     'Ga': 30000000000.0, # Shear modulus 
     'Vr_2': 2008.9999999999998, # set the second velocity od the segment of stage II
     'Vr_1': 500, # set the first velocity od the segment  of stage I
@@ -90,7 +90,6 @@ params = {'dh': 171, # set the grid spacing in your computational domain
     'EveMag': 6.5 # set the desired magnitude
  }
 
-##### Parser for command line
 
 parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -104,24 +103,7 @@ parser.add_argument('--logfile', metavar='log file name', help='log to file', de
 parser.add_argument('-p','--paramfile', metavar='parameter-file', help='Parameter file.', default=None)
 parser.add_argument('-o', '--outfile', metavar='output-file', help='Output SW4 source commands file (see Chapter 11.2 in SW4 manual)',default='morsm.txt')
 
-### Parameters in param file
 
-#dh=171  # what is this?
-#Xc=175.489469137e3
-#Yc= 127.68351375307698e3
-#Zc=10000
-#dip=90
-#strike=0
-#alpha=0
-#Ga=30e9
-#Vr_2=2870*0.7
-#Vr_1=500
-#aH=0.0
-#bH=0.2
-#aD=-0.3
-#bD=-0.4
-#sec_stage1=10
-#EveMag=6.5 
 
 class MORSM(object):
     def __init__(self, args):
@@ -201,7 +183,7 @@ def getslipmodel(params=params):
     Zc = params['Zc']
     dip = params['dip']
     strike = params['strike']
-    alpha = params['alpha']
+    rake = params['rake']
     Ga = params['Ga']
     Vr_2 = params['Vr_2']
     Vr_1 = params['Vr_1']
@@ -223,8 +205,8 @@ def getslipmodel(params=params):
     fault = np.zeros((len(w) * len(y), 3))
     slip = np.zeros((len(w) * len(y), 1))
     time = np.zeros((len(w) * len(y), 1))
-    vec1 = np.array([[np.cos(strike * np.pi / 180)], [np.sin(strike * np.pi / 180)], [np.sin(alpha * np.pi / 180)]])
-    vec2 = np.array([[np.sin(alpha * np.pi / 180)], [np.cos(dip * np.pi / 180)], [np.sin(dip * np.pi / 180)]])
+    vec1 = np.array([[np.cos(strike * np.pi / 180)], [np.sin(strike * np.pi / 180)], [np.sin(rake * np.pi / 180)]])
+    vec2 = np.array([[np.sin(rake * np.pi / 180)], [np.cos(dip * np.pi / 180)], [np.sin(dip * np.pi / 180)]])
     count_slip = np.zeros((1000000, 1))
     count = 0
     for i in w:
@@ -264,7 +246,7 @@ def saveslipmodel_sw4(outfile):
 #Zc={params["Zc"]}
 #dip [deg]={params["dip"]}
 #strike [deg]={params["strike"]}
-#aplha [deg]={params["alpha"]}
+#rake [deg]={params["rake"]}
 #Ga [Pa]={params["Ga"]}
 #aH={params["aH"]}
 #bH={params["bH"]}
@@ -416,9 +398,7 @@ def Slip_and_time_distribution_3D():
 
     ax1 = plt.axes(projection='3d')
     ax1.contour3D(Y, X, Z_time, 30, cmap='binary',zorder=2)
-    #sc = ax2.contourf(Y, X , Z_slip, vmin=slip.min(), vmax=slip.max(), cmap=cm)
-    #cbar = fig.colorbar(sc,  ax=ax2, shrink=0.9)
-    #cbar.set_label(r'slip, m')
+
    
 
     surf = ax1.plot_surface(Y, X, Z_slip, rstride=1, cstride=1, cmap='jet', vmin=slip.min(), vmax=slip.max(),
@@ -428,10 +408,6 @@ def Slip_and_time_distribution_3D():
     ax1.set_xlabel('Length, km',labelpad=7)
     ax1.set_ylabel('Width, km',labelpad=7)
     ax1.set_zlabel('Time ,sec',labelpad=7)
-    #contours =  plt.contour(Y, X, Z_time, 30 ,colors='black')
-    #plt.clabel(contours, inline=True, fontsize=8,fmt='%1.1f')
-    #ax2.set_xlabel('length, km')
-    #ax2.set_ylabel('width, km')
     plt.show()    
     
     
