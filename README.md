@@ -62,28 +62,24 @@ or
 
 ### Usage
 
-usage: MORSM.py [-h] [-v] [-l {CRITICAL,ERROR,WARNING,INFO,DEBUG}] [--logfile log file name] [-p parameter-file] [-o output-file] 
+    usage: MORSM.py [-h] [-v] [-l {CRITICAL,ERROR,WARNING,INFO,DEBUG}] [--logfile log file name] [-p parameter-file] [-o output-file] 
                 [--slip | --no-slip] [--database | --no-database] [--stf | --no-stf]
 
-        Moment-rate ORriented Slip Model, enables control on 
-        earthquakes moment rate timing, as seen from inversions word-wide
+           Moment-rate ORriented Slip Model, enables control on 
+           earthquakes moment rate timing, as seen from inversions word-wide
         
 
     options:
         -h, --help            show this help message and exit
         -v, --verbose         verbose - print log messages to screen?
         -l {CRITICAL,ERROR,WARNING,INFO,DEBUG}, --log_level {CRITICAL,ERROR,WARNING,INFO,DEBUG}
-                        Log level (Default: DEBUG). see Python's Logging module for more details
-        --logfile log file name
-                        log to file
+            Log level (Default: DEBUG). see Python's Logging module for more details
+        --logfile log file name     log to file
         -p parameter-file, --paramfile parameter-file
-                        Parameter file.
-        -o output-file, --outfile output-file
-                        Output SW4 source commands file (see Chapter 11.2 in SW4 manual)
+        -o output-file, --outfile output-file       Output SW4 source commands file (see Chapter 11.2 in SW4 manual)
         --slip, --no-slip     shows nice slip model to have (default: False)
-        --database, --no-database
-                        depicts SCARDERC database and MORSM event on it (default: False)
-         --stf, --no-stf       shows accumulated seismic moment and source time function (STF) (default: False)
+        --database, --no-database     depicts SCARDERC database and MORSM event on it (default: False)
+        --stf, --no-stf     shows accumulated seismic moment and source time function (STF) (default: False)
 
 ### Credits
 
