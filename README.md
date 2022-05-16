@@ -49,6 +49,16 @@ or
 
      git clone https://github.com/ABlaer/MOR-SM.git
 
+in the command line:
+     
+1. navigate to Vall2021 directory and extracte SCARDEC:
+
+          $  tar -xf  sourcefunction_archive_all.tar
+2. move the database up one directory:
+
+         $  mv ALL_MOY_and_OPTI_2021_MAJ_till_31122020/* .
+     
+  
 ### Dependencies
 
 - argparse
