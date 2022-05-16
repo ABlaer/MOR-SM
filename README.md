@@ -49,17 +49,16 @@ or
 
      git clone https://github.com/ABlaer/MOR-SM.git
 
-### Depndencies
+### Dependencies
 
 - argparse
 - sys
 - os
-- pandas
 - numpy
 - matplotlib
 - glob
 - logging
-- mpl_toolkits.mplot3d.axes3d
+
 
 ### Usage
 
