@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 
 """
@@ -79,6 +79,34 @@ formatter = logging.Formatter(fmt='%(asctime)s.%(msecs)03d | %(name)s | %(leveln
 
 log = logging.getLogger('MOR-SM')
 log.setLevel(loglevel)
+
+parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description=
+        '''
+        Moment-rate ORriented Slip Model, enables control on 
+        earthquakes moment rate timing, as seen from inversions word-wide
+        ''',
+        epilog='''Created by Almog Blaer (blaer@post.bgu.ac.il), 2021 @ GSI/BGU''')
+parser.version = '2.0'
+parser.add_argument('-v', '--verbose', help='verbose - print log messages to screen?', action='store_true',
+                        default=False)
+parser.add_argument('-l', '--log_level', choices=_LOG_LEVEL_STRINGS, default=loglevel,
+                        help=f"Log level (Default: {loglevel}). see Python's Logging module for more details")
+parser.add_argument('--logfile', metavar='log file name', help='log to file', default=None)
+parser.add_argument('-p', '--paramfile', metavar='parameter-file', help='Parameter file.', default=None)
+parser.add_argument('-o', '--outfile', metavar='output-file',
+                        help='Output SW4 source commands file (see Chapter 11.2 in SW4 manual)',
+                        default='MORSM.txt')
+parser.add_argument('--slip', default=False, help="shows nice slip model to have",
+                        action=argparse.BooleanOptionalAction)
+parser.add_argument('--database', default=False, help="depicts SCARDERC database and MORSM event on it",
+                    action=argparse.BooleanOptionalAction)
+parser.add_argument('--stf', default=False, help="shows accumulated seismic moment and source time function (STF)",
+                        action=argparse.BooleanOptionalAction)
+
+args = parser.parse_args()
+
 
 
 def purge(dir, pattern):
@@ -555,32 +583,6 @@ class Valle:
 
 if __name__ == '__main__':
     purge('.', "*.txt")
-    parser = argparse.ArgumentParser(
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        description=
-        '''
-        Moment-rate ORriented Slip Model, enables control on 
-        earthquakes moment rate timing, as seen from inversions word-wide
-        ''',
-        epilog='''Created by Almog Blaer (blaer@post.bgu.ac.il), 2021 @ GSI/BGU''')
-    parser.version = '2.0'
-    parser.add_argument('-v', '--verbose', help='verbose - print log messages to screen?', action='store_true',
-                        default=False)
-    parser.add_argument('-l', '--log_level', choices=_LOG_LEVEL_STRINGS, default=loglevel,
-                        help=f"Log level (Default: {loglevel}). see Python's Logging module for more details")
-    parser.add_argument('--logfile', metavar='log file name', help='log to file', default=None)
-    parser.add_argument('-p', '--paramfile', metavar='parameter-file', help='Parameter file.', default=None)
-    parser.add_argument('-o', '--outfile', metavar='output-file',
-                        help='Output SW4 source commands file (see Chapter 11.2 in SW4 manual)',
-                        default='MORSM.txt')
-    parser.add_argument('--slip', default=False, help="shows nice slip model to have",
-                        action=argparse.BooleanOptionalAction)
-    parser.add_argument('--database', default=False, help="depicts SCARDERC database and MORSM event on it",
-                        action=argparse.BooleanOptionalAction)
-    parser.add_argument('--stf', default=False, help="shows accumulated seismic moment and source time function (STF)",
-                        action=argparse.BooleanOptionalAction)
-
-    args = parser.parse_args()
     slipmodel = MORSM(args=args)
     slipmodel.run()
     database = Valle(args=args)
