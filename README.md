@@ -45,14 +45,25 @@ General code steps:
 
      git clone https://github.com/ABlaer/MOR-SM.git
 
-in the command line:
+in the command-line:
      
-1. navigate to Vall2021 directory and extracte SCARDEC:
+1. navigate to Vall2021 directory and extract SCARDEC:
 
          $  tar -xf  sourcefunction_archive_all.tar
-2. move the database up one directory:
+
+2. move the database up one directory, to Valle2021 directory:
 
          $  mv ALL_MOY_and_OPTI_2021_MAJ_till_31122020/* .
+
+3.       move relevent data files from their dir to the same directory
+
+         $  mv */fct* 
+          
+         and one last step
+
+4.       $  rm -r FCTs_*
+
+5. eventually your have got ~3800 files (start with fct) for the same events amount in Valle2021 directory
 
 ### Dependencies
 
