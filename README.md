@@ -55,15 +55,15 @@ in the command-line:
 
          $  mv ALL_MOY_and_OPTI_2021_MAJ_till_31122020/* .
 
-3.       move relevent data files from their dir to the same directory
+3. move relevant data files from their dir to the same directory
 
          $  mv */fct* 
           
-         and one last step
+4. and one more last step
 
-4.       $  rm -r FCTs_*
+         $  rm -r FCTs_*
 
-5. eventually your have got ~3800 files (start with fct) for the same events amount in Valle2021 directory
+5. eventually you have got ~3800 files (start with fct) for the same events amount in Valle2021 directory
 
 ### Dependencies
 
