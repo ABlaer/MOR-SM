@@ -60,10 +60,10 @@ params = {'dh': 171,  # set the grid spacing in your computational domain
           'strike': 0,  # segment's strike
           'rake': 0,  # # segment's angle from the horizon
           'Ga': 30000000000.0,  # Shear modulus
-          'Vr_2': 2300,  # set the second velocity od the segment of stage II
-          'Vr_1': 1000,  # set the first velocity od the segment  of stage I
-          'aH': -0.4,  # set the max slip location (down-up direction)
-          'bH': 0.4,  # set the max slip location (south-north or east-west direction)
+          'Vr_2': 2700,  # set the second velocity od the segment of stage II
+          'Vr_1': 2700,  # set the first velocity od the segment  of stage I
+          'aH': 0.0,  # set the max slip location (down-up direction)
+          'bH': 0.0,  # set the max slip location (south-north or east-west direction)
           'aD': 0.0,  # set the first pixel location time to operate in the segment (down-up direction)
           'bD': 0.0,  # set the first pixel location time to operate in the segment (south-north or east-west direction)
           'sec_stage1': 4,  # set how long  the first stage will be with Vr_1
@@ -561,17 +561,19 @@ class Valle:
         # Global params from SCARDEC database
         ax.scatter(v[0], v[4], c=r_t, vmin=50, vmax=150,
                    alpha=0.2, edgecolors='k', cmap=cm_ax)
-        sc = ax2.scatter(v[0], v[6], c=color, vmin=50, vmax=150,
+        sc = ax2.scatter(v[0], v[6], c=r_t, vmin=50, vmax=150,
                          edgecolors='k', alpha=trans, s=size, cmap=cm_ax2)
-
         # MORSM params
-        _, _, _, data = self.stfunction()
-        t_m, _ = self.stfmaxvalues(data=data)
+        _, _, data = self.moment2accumulatedmoment()
+        _, _ , _, stf = self.stfunction()
+        t_m, _ = self.stfmaxvalues(data=stf)
         mw = params['EveMag']
         obs_rupture, accumoment = (data[-1][0],
                                    data[-1][1])
         m0_acc_2sec = self.calc_accmomentrate(data=data)
         r_t = self.meier(obs_rupture=obs_rupture, m0=accumoment)
+        #print(r_t, t_m, mw, m0_acc_2sec, obs_rupture, accumoment)
+        #print(data)
         ax.scatter(mw, obs_rupture, c=r_t, marker='s',
                    s=80, vmin=50, vmax=150, edgecolors='white', cmap=cm_ax)
         ax2.scatter(mw, m0_acc_2sec, c='k' if t_m <= 2 else r_t, marker='s',
